@@ -36,6 +36,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>{
   Function(String) get changeSurname => _surnameController.sink.add;
   Function(String) get changeUser => _userController.sink.add;
 
+  Stream<bool> get formLoginValidStream => CombineLatestStream.combine2(userStream, passwordStream, (u, p) => true);
+
   void dispose() {
     _birthOfDayController.close();
     _dniController.close();

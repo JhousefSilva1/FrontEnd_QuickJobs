@@ -2,17 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickjobsbol/src/app/texts.dart';
 import 'package:quickjobsbol/src/bloc/auth/auth_bloc.dart';
+import 'package:quickjobsbol/src/models/user_model.dart';
 import 'package:quickjobsbol/src/style/pallete_color.dart';
 
-class SignInView extends StatelessWidget {
+class SignInView extends StatefulWidget {
   final AuthBloc authBloc;
 
   const SignInView({super.key, required this.authBloc});
 
   @override
+  State<SignInView> createState() => _SignInViewState();
+}
+
+class _SignInViewState extends State<SignInView> {
+  UserModel _userModel = UserModel();
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
-      bloc: authBloc,
+      bloc: widget.authBloc,
       builder: (context, state) {
         return Scaffold(
           body: SingleChildScrollView(
@@ -32,7 +40,7 @@ class SignInView extends StatelessWidget {
                         child: Column(
                           children: <Widget>[
                             StreamBuilder(
-                              stream: authBloc.userStream,
+                              stream: widget.authBloc.userStream,
                               builder: (context, snapshot) {
                                 return TextFormField(
                                   decoration: InputDecoration(
@@ -64,7 +72,8 @@ class SignInView extends StatelessWidget {
                                   ),
                                   keyboardType: TextInputType.name,
                                   maxLines: 1,
-                                  onChanged: authBloc.changeUser,
+                                  onChanged: widget.authBloc.changeUser,
+                                  onSaved: (value) => _userModel.user = value,
                                   style: Theme.of(context).textTheme.headlineMedium,
                                   validator: (value) => value!.isEmpty? Texts.emptyUser: null,
                                 );
@@ -72,7 +81,7 @@ class SignInView extends StatelessWidget {
                             ),
                             const SizedBox(height: 10),
                             StreamBuilder(
-                              stream: authBloc.passwordStream,
+                              stream: widget.authBloc.passwordStream,
                               builder: (context, snapshot) {
                                 return TextFormField(
                                   decoration: InputDecoration(
@@ -105,28 +114,35 @@ class SignInView extends StatelessWidget {
                                   ),
                                   keyboardType: TextInputType.visiblePassword,
                                   maxLines: 1,
-                                  onChanged: authBloc.changePassword,
+                                  onChanged: widget.authBloc.changePassword,
+                                  onSaved: (value) => _userModel.password = value,
                                   style: Theme.of(context).textTheme.headlineMedium,
                                   validator: (value) => value!.isEmpty? Texts.emptyPassword: null,
                                 );
                               },
                             ),
                             const SizedBox(height: 50),
-                            SizedBox(
-                              height: 48,
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: PalleteColor.primaryColor,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(25.0),
+                            StreamBuilder(
+                              stream: widget.authBloc.formLoginValidStream,
+                              builder: (context, snapshot) {
+                                return SizedBox(
+                                  height: 48,
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: PalleteColor.primaryColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(25.0),
+                                      ),
+                                    ),
+                                    onPressed: snapshot.hasData? () {
+                                      print(Texts.signIn);
+                                      Navigator.of(context).pushNamed('/principal');
+                                    }: null, 
+                                    child: Text(Texts.signIn, style: Theme.of(context).textTheme.bodyLarge!.merge(const TextStyle(color: PalleteColor.whiteColor)))
                                   ),
-                                ),
-                                onPressed: () {
-                                  print(Texts.signIn);
-                                }, 
-                                child: Text(Texts.signIn, style: Theme.of(context).textTheme.bodyLarge!.merge(const TextStyle(color: PalleteColor.whiteColor)))
-                              ),
+                                );
+                              },
                             ),
                             const SizedBox(height: 20),
                             SizedBox(

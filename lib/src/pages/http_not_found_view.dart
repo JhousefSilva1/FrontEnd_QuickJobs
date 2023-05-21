@@ -8,18 +8,20 @@ class HttpNotFoundView extends StatelessWidget {
   Widget build(BuildContext context) {
     // return Text('404');
     return Scaffold(
-      // appBar: AppBar(
-      //   automaticallyImplyLeading: false,
-      //   backgroundColor: Colors.white,
-      //   elevation: 0,
-      //   title: Center(child: Text('404', style: TextStyle(color: Colors.blue),)),
-      // ),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: PalleteColor.primaryColor,),
+          onPressed: () => Navigator.of(context).canPop(),
+        ),
+      ),
       backgroundColor: Colors.white,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Text('¡Lo siento, ha ocurrido un error 404 en Quick Job! Nuestros técnicos están trabajando para solucionar el problema. Mientras tanto, ¿por qué no revisas nuestras otras opciones de servicios para el hogar?'),
           Image.asset('assets/images/404.jpg'),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
