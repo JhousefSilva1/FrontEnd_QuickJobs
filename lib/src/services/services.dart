@@ -163,16 +163,28 @@ class Services{
   }
 
   Future secureStorage(decodedData, jwtToken) async{
-    final accessToken = decodedData['response']['authToken'];
-    final refreshToken = decodedData['response']['refreshToken'];
+    final accessToken = decodedData['accessToken'];
+    final refreshToken = decodedData['refreshToken'];
+    final userName = decodedData['username'];
+    final email = decodedData['email'];
+    final roles = decodedData['roles'][0];
     const String accessTokenKey = 'accessToken';
     final String accessTokenValue = accessToken;
     const String refreshTokenKey = 'refreshToken';
     final String refreshTokenValue = refreshToken;
-    const String nameKey = 'name';
-    final String nameValue = jwtToken['name'];
+    const String userNameKey = 'userName';
+    final String userNameValue = userName;
+    const String emailKey = 'userName';
+    final String emailValue = email;
+    const String rolesNameKey = 'userName';
+    final String rolesNameValue = roles;
+
+    // const String nameKey = 'name';
+    // final String nameValue = jwtToken['name'];
     await _storage.write(key: accessTokenKey, value: accessTokenValue);
     await _storage.write(key: refreshTokenKey, value: refreshTokenValue);
-    await _storage.write(key: nameKey, value: nameValue);
+    await _storage.write(key: userNameKey, value: userNameValue);
+    await _storage.write(key: emailKey, value: emailValue);
+    await _storage.write(key: rolesNameKey, value: rolesNameValue);
   }
 }

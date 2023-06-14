@@ -26,3 +26,25 @@ class PasswordChanged extends AuthEvent{
   @override
   List<Object> get props => [password];
 }
+
+class SignInAuth extends AuthEvent{
+  UserModel user;
+
+  SignInAuth({required this.user});
+}
+
+class LoginEvent {
+  const LoginEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
+class LoginButtonPressed extends LoginEvent {
+  UserModel user;
+
+  LoginButtonPressed({required this.user});
+
+  @override
+  List<Object> get props => [user];
+}

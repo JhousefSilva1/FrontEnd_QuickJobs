@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickjobsbol/src/app/route_generator.dart';
 import 'package:quickjobsbol/src/bloc/auth/auth_bloc.dart';
+import 'package:quickjobsbol/src/services/auth_service.dart';
 import 'package:quickjobsbol/src/style/pallete_color.dart';
 
 void main() => runApp(const MyApp());
@@ -11,9 +12,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AuthService _authService = AuthService();
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => AuthBloc())
+        BlocProvider(create: (context) => AuthBloc(_authService)),
+        BlocProvider(create: (context) => LoginBloc())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

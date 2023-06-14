@@ -2,17 +2,24 @@ class Texts{
   Texts._();
 
   static String birthOfDay = 'Fecha de nacimiento';
+  static String cellphone = 'Celular';
   static String createAccount = 'Crear una cuenta en QuickJobs';
   static String dni = 'Carnet de identidad';
   static String email = 'Correo electrónico';
   static String emptyBirthOfDay = 'La fecha de nacimiento no puede estar vacio';
+  static String emptyCellPhone = 'El celular no puede estar vacio';
   static String emptyDni = 'El carnet de identidad no puede estar vacio';
+  static String emptyEmail = 'El correo electronico no puede estar vacio';
   static String emptyName = 'El nombre no puede estar vacio';
   static String emptyPassword = 'La contraseña no puede estar vacio';
   static String emptySurname = 'El apellido no puede estar vacio';
   static String emptyUser = 'El usuario no puede estar vacio';
+  static String gender = 'Genero';
   static String hintBirthOfDay = '12/02/2000';
+  static String hintCellPhone = '78451244';
   static String hintDni = '987654321';
+  static String hintEmail = 'joe@example.com';
+  static String hintGender = 'Femenino';
   static String hintName = 'Joe';
   static String hintPassword = '************';
   static String hintSurname = 'Doe';
