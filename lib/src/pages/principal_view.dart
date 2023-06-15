@@ -44,7 +44,7 @@ class PrincipalView extends StatelessWidget {
                   itemCount: 7,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3,childAspectRatio: 1,),
                   itemBuilder: (contxt, indx){
-                    return  Card(
+                    return Card(
                       elevation: 0,
                       margin: EdgeInsets.all(4.0),
                       color: PalleteColor.whiteColor,
@@ -100,7 +100,7 @@ class PrincipalView extends StatelessWidget {
                 leading: const Icon(Icons.account_circle_rounded),
                 title: const Text('Perfil'),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).pushNamed('/profile');
                 },
               ),
               ListTile(

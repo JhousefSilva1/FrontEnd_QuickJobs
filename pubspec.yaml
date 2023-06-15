@@ -28,16 +28,18 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  flutter:
-    sdk: flutter
   bloc: ^7.1.0
   connectivity_plus: ^4.0.1
   cupertino_icons: ^1.0.2
+  flutter:
+    sdk: flutter
   flutter_bloc: ^7.2.0
   # flutter_bloc: ^8.1.2
   flutter_secure_storage: ^8.0.0
   http: ^0.13.6
+  quickalert: ^1.0.1
   rxdart: ^0.27.7
+  sticky_headers: ^0.3.0+2
  
 
   # The following adds the Cupertino Icons font to your application.
