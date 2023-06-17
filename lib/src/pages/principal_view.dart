@@ -44,21 +44,25 @@ class PrincipalView extends StatelessWidget {
                   itemCount: 7,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3,childAspectRatio: 1,),
                   itemBuilder: (contxt, indx){
-                    return Card(
-                      elevation: 0,
-                      margin: EdgeInsets.all(4.0),
-                      color: PalleteColor.whiteColor,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 12.0, top: 6.0, bottom: 2.0),
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.lightbulb),
-                              SizedBox(height: 8),
-                              Text('Electricista')
-                            ],
-                          )
+                    return GestureDetector(
+                      onTap: () => print(indx),
+                      child: Card(
+                        shadowColor: PalleteColor.primaryColor,
+                        elevation: 0,
+                        margin: EdgeInsets.all(4.0),
+                        color: PalleteColor.whiteColor,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 12.0, top: 6.0, bottom: 2.0),
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.lightbulb),
+                                SizedBox(height: 8),
+                                Text('Electricista')
+                              ],
+                            )
+                          ),
                         ),
                       ),
                     );
@@ -114,7 +118,7 @@ class PrincipalView extends StatelessWidget {
                 leading: const Icon(Icons.file_present_sharp),
                 title: const Text('Mis Documentos'),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).pushNamed('/documents');
                 },
               ),
               ListTile(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quickjobsbol/src/bloc/auth/auth_bloc.dart';
+import 'package:quickjobsbol/src/pages/documents_view.dart';
 import 'package:quickjobsbol/src/pages/http_not_found_view.dart';
 import 'package:quickjobsbol/src/pages/principal_view.dart';
 import 'package:quickjobsbol/src/pages/profile_view.dart';
@@ -16,6 +17,8 @@ class RouteGenerator{
     switch(settings.name){
       case '/':
         return MaterialPageRoute(builder: (context) => SignInView(authBloc: authBloc));
+      case '/documents':
+        return MaterialPageRoute(builder: (context) => DocumentsView());
       case '/principal':
         return MaterialPageRoute(builder: (context) => const PrincipalView());
       case '/profile':
