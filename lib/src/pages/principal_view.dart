@@ -1,9 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:quickjobsbol/src/app/texts.dart';
+import 'package:quickjobsbol/src/bloc/service/service_bloc.dart';
 import 'package:quickjobsbol/src/style/pallete_color.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 
-class PrincipalView extends StatelessWidget {
-  const PrincipalView({super.key});
+class PrincipalView extends StatefulWidget {
+  PrincipalView({super.key});
+
+  @override
+  State<PrincipalView> createState() => _PrincipalViewState();
+}
+
+class _PrincipalViewState extends State<PrincipalView> {
+  final ServiceBloc serviceBloc = ServiceBloc();
+
+  @override
+  void initState() {
+    super.initState();
+    serviceBloc.getServices();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -25,68 +42,80 @@ class PrincipalView extends StatelessWidget {
           ],
         ),
         backgroundColor: PalleteColor.whiteColor,
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListView.builder(
-            itemCount: 1,
-            itemBuilder: (context, index) {
-              return StickyHeader(
-                header: Container(
-                  height: 38.0,
-                  color: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  alignment: Alignment.centerLeft,
-                  child: Text('Que necesitas hoy?', style: Theme.of(context).textTheme.titleLarge),
-                ),
-                content: GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 7,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3,childAspectRatio: 1,),
-                  itemBuilder: (contxt, indx){
-                    return GestureDetector(
-                      onTap: () => print(indx),
-                      child: Card(
-                        shadowColor: PalleteColor.primaryColor,
-                        elevation: 0,
-                        margin: EdgeInsets.all(4.0),
-                        color: PalleteColor.whiteColor,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 12.0, top: 6.0, bottom: 2.0),
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.lightbulb),
-                                SizedBox(height: 8),
-                                Text('Electricista')
-                              ],
-                            )
-                          ),
-                        ),
+        body: StreamBuilder(
+          stream: serviceBloc.servicesStream,
+          builder: (context, snapshot) {
+            if(snapshot.connectionState == ConnectionState.waiting){
+              return const Center(child: CircularProgressIndicator());
+            }else if(snapshot.hasError){
+              return const Text('Error');
+            }else{
+              print(snapshot.data);
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView.builder(
+                  itemCount: 1,
+                  itemBuilder: (context, index) {
+                    return StickyHeader(
+                      header: Container(
+                        height: 38.0,
+                        color: Colors.white,
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        alignment: Alignment.centerLeft,
+                        child: Text(Texts.whatDoYouNeed, style: Theme.of(context).textTheme.titleLarge),
+                      ),
+                      content: GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: 7,
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3,childAspectRatio: 1,),
+                        itemBuilder: (contxt, indx){
+                          return GestureDetector(
+                            onTap: () => Navigator.of(context).pushNamed('/request', arguments: indx),
+                            child: const Card(
+                              shadowColor: PalleteColor.primaryColor,
+                              elevation: 0,
+                              margin: EdgeInsets.all(4.0),
+                              color: PalleteColor.whiteColor,
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 12.0, top: 6.0, bottom: 2.0),
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.lightbulb),
+                                      SizedBox(height: 8),
+                                      Text('Electricista')
+                                    ],
+                                  )
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     );
                   },
+                  shrinkWrap: true,
                 ),
               );
-            },
-            shrinkWrap: true,
-          ),
+            }
+          },
         ),
         endDrawer: Drawer(
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
-              const UserAccountsDrawerHeader( // <-- SEE HERE
+              const UserAccountsDrawerHeader(
                 decoration: BoxDecoration(color: PalleteColor.primaryColor),
                 accountName: Text(
-                  "Jose Pozo",
+                  'Jose Pozo',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 accountEmail: Text(
-                  "jose@gmail.com",
+                  'jose@gmail.com',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
@@ -102,44 +131,37 @@ class PrincipalView extends StatelessWidget {
               ),
               ListTile(
                 leading: const Icon(Icons.account_circle_rounded),
-                title: const Text('Perfil'),
+                title: Text(Texts.myProfile),
                 onTap: () {
-                  Navigator.of(context).pushNamed('/profile');
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.assignment),
-                title: const Text('Mis solicitudes'),
-                onTap: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).popAndPushNamed('/profile');
                 },
               ),
               ListTile(
                 leading: const Icon(Icons.file_present_sharp),
-                title: const Text('Mis Documentos'),
+                title: Text(Texts.myDocuments),
                 onTap: () {
-                  Navigator.of(context).pushNamed('/documents');
+                  Navigator.of(context).popAndPushNamed('/documents');
                 },
               ),
               ListTile(
                 leading: const Icon(Icons.add_shopping_cart_rounded),
-                title: const Text('Mis Servicios'),
+                title: Text(Texts.myServices),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).popAndPushNamed('/services');
                 },
               ),
               ListTile(
                 leading: const Icon(Icons.location_on),
-                title: const Text('Mis Direcciones'),
+                title: Text(Texts.myAddress),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).popAndPushNamed('/address');
                 },
               ),
               ListTile(
                 leading: const Icon(Icons.logout),
-                title: const Text('Cerrar Sesion'),
+                title: Text(Texts.logout),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
                 },
               ),
             ],

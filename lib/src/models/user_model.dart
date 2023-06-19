@@ -20,8 +20,9 @@ class UserModel {
   String? password;
   String? confirmPassword;
   String? imgProfile;
-  String? status;
-  String? version;
+  String? accountType;
+  bool? status;
+  int? version;
   String? txUser;
   String? txHost;
   String? txDate;
@@ -38,6 +39,7 @@ class UserModel {
     this.password,
     this.confirmPassword,
     this.imgProfile,
+    this.accountType,
     this.status,
     this.version,
     this.txUser,
@@ -57,8 +59,9 @@ class UserModel {
     password: json["password"],
     confirmPassword: json["confirmPassword"],
     imgProfile: json["imgProfile"],
+    accountType: json["accountType"],
     status: json["status"],
-    version: json["version"],
+    version: int.parse(json["version"]),
     txUser: json["txUser"],
     txHost: json["txHost"],
     txDate: json["txDate"],
@@ -76,6 +79,7 @@ class UserModel {
     "password": password,
     "confirmPassword": confirmPassword,
     "imgProfile": imgProfile,
+    "accountType": accountType,
     "status": status,
     "version": version,
     "txUser": txUser,

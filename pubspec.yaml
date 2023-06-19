@@ -31,14 +31,19 @@ dependencies:
   bloc: ^7.1.0
   connectivity_plus: ^4.0.1
   cupertino_icons: ^1.0.2
+  dart_ipify: ^1.1.1
   flutter:
     sdk: flutter
   flutter_bloc: ^7.2.0
   flutter_exif_rotation: ^0.5.1
+  flutter_localizations:
+    sdk: flutter
   flutter_native_image: ^0.0.6+1
+  flutter_rounded_date_picker: ^3.0.4
   flutter_secure_storage: ^8.0.0
   http: ^0.13.6
   image_picker: 0.8.7+1
+  intl: ^0.18.0
   quickalert: ^1.0.1
   rxdart: ^0.27.7
   sticky_headers: ^0.3.0+2

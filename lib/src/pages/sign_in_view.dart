@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quickalert/quickalert.dart';
 import 'package:quickjobsbol/src/app/texts.dart';
 import 'package:quickjobsbol/src/bloc/auth/auth_bloc.dart';
 import 'package:quickjobsbol/src/models/user_model.dart';
 import 'package:quickjobsbol/src/style/pallete_color.dart';
 
 class SignInView extends StatefulWidget {
-  final AuthBloc authBloc;
-
-  const SignInView({super.key, required this.authBloc});
+  const SignInView({super.key});
 
   @override
   State<SignInView> createState() => _SignInViewState();
@@ -21,29 +20,28 @@ class _SignInViewState extends State<SignInView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<LoginBloc, LoginState>(
+    final authBloc = AuthBloc();
+    return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if(state is LoginLoading){
-          CircularProgressIndicator();
-        }else if(state is LoginSuccess){
+        if(state is AuthLoading){
+          QuickAlert.show(
+            context: context, 
+            type: QuickAlertType.loading,
+            text: Texts.verifyingCredentials,
+            barrierDismissible: false,
+            backgroundColor: PalleteColor.whiteColor,
+          );
+        }else if(state is AuthSuccess){
+          Navigator.of(context).pop();
           Navigator.pushReplacementNamed(context, '/principal');
         }else{
-          showDialog(
+          Navigator.of(context).pop();
+          QuickAlert.show(
             context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('Login Error'),
-                content: Text(state.toString()),
-                actions: [
-                  ElevatedButton(
-                    child: Text('OK'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              );
-            },
+            type: QuickAlertType.error,
+            text: Texts.incorrectCredentials,
+            confirmBtnText: Texts.accept,
+            confirmBtnColor: PalleteColor.greyColor
           );
         }
       },
@@ -66,7 +64,7 @@ class _SignInViewState extends State<SignInView> {
                       child: Column(
                         children: <Widget>[
                           StreamBuilder(
-                            stream: widget.authBloc.emailStream,
+                            stream: authBloc.emailStream,
                             builder: (context, snapshot) {
                               return TextFormField(
                                 decoration: InputDecoration(
@@ -98,7 +96,7 @@ class _SignInViewState extends State<SignInView> {
                                 ),
                                 keyboardType: TextInputType.emailAddress,
                                 maxLines: 1,
-                                onChanged: widget.authBloc.changeEmail,
+                                onChanged: authBloc.changeEmail,
                                 onSaved: (value) => _userModel.email = value,
                                 style: Theme.of(context).textTheme.headlineMedium,
                                 validator: (value) => value!.isEmpty? Texts.emptyEmail: null,
@@ -107,7 +105,7 @@ class _SignInViewState extends State<SignInView> {
                           ),
                           const SizedBox(height: 10),
                           StreamBuilder(
-                            stream: widget.authBloc.passwordStream,
+                            stream: authBloc.passwordStream,
                             builder: (context, snapshot) {
                               return TextFormField(
                                 decoration: InputDecoration(
@@ -150,8 +148,8 @@ class _SignInViewState extends State<SignInView> {
                                 ),
                                 keyboardType: TextInputType.visiblePassword,
                                 maxLines: 1,
-                                obscureText: _showPassword,
-                                onChanged: widget.authBloc.changePassword,
+                                obscureText: !_showPassword,
+                                onChanged: authBloc.changePassword,
                                 onSaved: (value) => _userModel.password = value,
                                 style: Theme.of(context).textTheme.headlineMedium,
                                 validator: (value) => value!.isEmpty? Texts.emptyPassword: null,
@@ -160,7 +158,7 @@ class _SignInViewState extends State<SignInView> {
                           ),
                           const SizedBox(height: 50),
                           StreamBuilder(
-                            stream: widget.authBloc.formLoginValidStream,
+                            stream: authBloc.formLoginValidStream,
                             builder: (context, snapshot) {
                               return SizedBox(
                                 height: 48,
@@ -192,7 +190,6 @@ class _SignInViewState extends State<SignInView> {
                                 ),
                               ),
                               onPressed: () {
-                                print(Texts.signUp);
                                 Navigator.of(context).pushNamed('/signUp');
                               }, 
                               child: Text(Texts.signUp, style: Theme.of(context).textTheme.bodyLarge!.merge(const TextStyle(color: PalleteColor.primaryColor)))
@@ -222,10 +219,7 @@ class _SignInViewState extends State<SignInView> {
 
   void submit(){
     if(_validateAndSave()){
-      print(_userModel.email);
-      print(_userModel.password);
-      BlocProvider.of<LoginBloc>(context).add(LoginButtonPressed(user: _userModel));
-      print('aux.toString()');
+      BlocProvider.of<AuthBloc>(context).add(AuthButtonPressed(user: _userModel));
     }
   }
 }

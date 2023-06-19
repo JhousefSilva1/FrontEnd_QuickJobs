@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:quickjobsbol/src/app/route_generator.dart';
 import 'package:quickjobsbol/src/bloc/auth/auth_bloc.dart';
-import 'package:quickjobsbol/src/services/auth_service.dart';
+import 'package:quickjobsbol/src/bloc/service/service_bloc.dart';
+import 'package:quickjobsbol/src/bloc/sign_up/sign_up_bloc.dart';
+import 'package:quickjobsbol/src/bloc/user/user_bloc.dart';
 import 'package:quickjobsbol/src/style/pallete_color.dart';
 
 void main() => runApp(const MyApp());
@@ -12,11 +15,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthService _authService = AuthService();
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => AuthBloc(_authService)),
-        BlocProvider(create: (context) => LoginBloc())
+        BlocProvider(create: (context) => AuthBloc()),
+        BlocProvider(create: (context) => ServiceBloc()),
+        BlocProvider(create: (context) => SignUpBloc()),
+        BlocProvider(create: (context) => UserBloc())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -42,6 +46,11 @@ class MyApp extends StatelessWidget {
           )
         ),
         title: 'Quick Jobs',
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
       ),
     );
   }

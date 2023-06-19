@@ -6,13 +6,8 @@ import 'package:quickjobsbol/src/style/pallete_color.dart';
 import 'dart:async';
 import 'dart:io';
 
-// import 'package:flutter/foundation.dart';
-// import 'package:flutter/material.dart';
-// import 'package:image_picker/image_picker.dart';
-// import 'package:mime/mime.dart';
-// import 'package:video_player/video_player.dart';
 class DocumentsView extends StatefulWidget {
-  DocumentsView({super.key});
+  const DocumentsView({super.key});
 
   @override
   State<DocumentsView> createState() => _DocumentsViewState();
@@ -32,22 +27,22 @@ class _DocumentsViewState extends State<DocumentsView> {
             onPressed: ()=> Navigator.of(context).pop(),
             icon: const Icon(Icons.arrow_back_ios_new_rounded, color: PalleteColor.primaryColor)
           ),
-          title: Text('Mis Documentos', style: Theme.of(context).textTheme.headlineSmall!.merge(TextStyle(color: PalleteColor.primaryColor, fontWeight: FontWeight.bold))),
+          title: Text('Mis Documentos', style: Theme.of(context).textTheme.headlineSmall!.merge(const TextStyle(color: PalleteColor.primaryColor, fontWeight: FontWeight.bold))),
         ),
         backgroundColor: PalleteColor.whiteColor,
         body: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              Text('Gestor de Documentos', style: Theme.of(context).textTheme.titleMedium!.merge(TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
+              Text('Gestor de Documentos', style: Theme.of(context).textTheme.titleMedium!.merge(const TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
               SizedBox(height: MediaQuery.of(context).size.height * .024),
-              Text('Carnet de Identidad anverso', style: Theme.of(context).textTheme.titleMedium!.merge(TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
+              Text('Carnet de Identidad anverso', style: Theme.of(context).textTheme.titleMedium!.merge(const TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
               SizedBox(height: MediaQuery.of(context).size.height * .012),
               Container(
                 height: 200.0,
                 alignment: Alignment.center,
                 child: _optionalScanningValue == null
-                ? Text('Carnet de Identidad anverso vacio')
+                ? const Text('Carnet de Identidad anverso vacio')
                 : Container(
                     decoration: BoxDecoration(border: Border.all(color: PalleteColor.primaryColor, width: 2.0)),
                     child: Image.file(
@@ -76,13 +71,13 @@ class _DocumentsViewState extends State<DocumentsView> {
                 ],
               ),
               SizedBox(height: MediaQuery.of(context).size.height * .048),
-              Text('Carnet de Identidad reverso', style: Theme.of(context).textTheme.titleMedium!.merge(TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
+              Text('Carnet de Identidad reverso', style: Theme.of(context).textTheme.titleMedium!.merge(const TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
               SizedBox(height: MediaQuery.of(context).size.height * .012),
               Container(
                 height: 200.0,
                 alignment: Alignment.center,
                 child: _optionalScanningValue1 == null
-                ? Text('Carnet de Identidad reverso vacio')
+                ? const Text('Carnet de Identidad reverso vacio')
                 : Container(
                     decoration: BoxDecoration(border: Border.all(color: PalleteColor.primaryColor, width: 2.0)),
                     child: Image.file(
@@ -126,7 +121,6 @@ class _DocumentsViewState extends State<DocumentsView> {
   Future captureImage(BuildContext context, {bool fromGallery = true, bool type=true}) async {
     FocusScope.of(context).unfocus();
     _pickedFile = await picker.pickImage(source: fromGallery ? ImageSource.gallery : ImageSource.camera);
-    print(_pickedFile);
     if(type) _optionalScanningValue = await exIf(path: _pickedFile!.path);
     if(!type) _optionalScanningValue1 = await exIf(path: _pickedFile!.path);
 

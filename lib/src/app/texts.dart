@@ -1,6 +1,9 @@
 class Texts{
   Texts._();
 
+  static String accept = 'Aceptar';
+  static String accountAdjustment = 'Ajustes de cuenta';
+  static String accountType = 'Tipo de cuenta';
   static String birthOfDay = 'Fecha de nacimiento';
   static String cellphone = 'Celular';
   static String createAccount = 'Crear una cuenta en QuickJobs';
@@ -14,6 +17,7 @@ class Texts{
   static String emptyPassword = 'La contraseña no puede estar vacio';
   static String emptySurname = 'El apellido no puede estar vacio';
   static String emptyUser = 'El usuario no puede estar vacio';
+  static String failedRegisterUser = 'Error al registrar usuario';
   static String gender = 'Genero';
   static String hintBirthOfDay = '12/02/2000';
   static String hintCellPhone = '78451244';
@@ -25,18 +29,29 @@ class Texts{
   static String hintSurname = 'Doe';
   static String hintUser = 'Joe';
   static String incorrectBirthOfDay = 'Fecha de nacimiento incorrecto';
+  static String incorrectCredentials = 'Credenciales incorrectas';
   static String incorrectDni = 'Carnet de identidad incorrecto';
   static String incorrectName = 'Nombre incorrecto';
   static String incorrectPassword = 'Contraseña incorrecto';
   static String incorrectSurname = 'Apellido incorrecto';
   static String incorrectUser = 'Usuario incorrecto';
+  static String logout = 'Cerrar Sesion';
+  static String myAddress = 'Mis Direcciones';
+  static String myDocuments = 'Mis Documentos';
+  static String myProfile = 'Mi Perfil';
+  static String myServices = 'Mis Servicios';
   static String name = 'Nombre';
   static String password = 'Contraseña';
+  static String passwordNotMatch = 'Las contraseñas no coinciden';
+  static String profile = 'Perfil';
+  static String registeringUser = 'Registrando usuario';
   static String signIn = 'Iniciar sesión';
   static String signInDescription = 'Inicie sesión para hacer uso de la aplicación.';
   static String signUp = 'Registrate';
   static String signUpDescription = 'Por favor, complete la información a continuación para crear en la cuenta.';
   static String surname = 'Apellido';
   static String user = 'Usuario';
+  static String verifyingCredentials = 'Verificando Credenciales';
+  static String whatDoYouNeed = 'Que Necesitas hoy?';
   static String welcome = 'Bienvenido de nuevo a QuickJob';
 }
