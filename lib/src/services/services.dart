@@ -12,7 +12,7 @@ class Services{
 
   var headerJson = <String, String>{
     'Accept': 'application/json',
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json;charset=UTF-8',
     'Access-Control-Allow-Origin': '*',
   };
 
@@ -163,28 +163,32 @@ class Services{
   }
 
   Future secureStorage(decodedData, jwtToken) async{
-    final accessToken = decodedData['accessToken'];
-    final refreshToken = decodedData['refreshToken'];
-    final userName = decodedData['username'];
-    final email = decodedData['email'];
-    final roles = decodedData['roles'][0];
+    final accessToken = decodedData['token'];
+    final userName = jwtToken['names'];
+    final surnamesName = jwtToken['surnames'];
+    final email = jwtToken['sub'];
+    final accountType = jwtToken['accountType'];
+    final id = jwtToken['id'];
     const String accessTokenKey = 'accessToken';
     final String accessTokenValue = accessToken;
-    const String refreshTokenKey = 'refreshToken';
-    final String refreshTokenValue = refreshToken;
     const String userNameKey = 'userName';
     final String userNameValue = userName;
-    const String emailKey = 'userName';
+    const String surnamesNameKey = 'surnamesName';
+    final String surnamesNameValue = surnamesName;
+    const String emailKey = 'emailName';
     final String emailValue = email;
-    const String rolesNameKey = 'userName';
-    final String rolesNameValue = roles;
+    const String accountTypeNameKey = 'accountType';
+    final String accountTypeNameValue = accountType;
+    const String idNameKey = 'id';
+    final int idNameValue = id;
 
     // const String nameKey = 'name';
     // final String nameValue = jwtToken['name'];
     await _storage.write(key: accessTokenKey, value: accessTokenValue);
-    await _storage.write(key: refreshTokenKey, value: refreshTokenValue);
     await _storage.write(key: userNameKey, value: userNameValue);
+    await _storage.write(key: surnamesNameKey, value: surnamesNameValue);
     await _storage.write(key: emailKey, value: emailValue);
-    await _storage.write(key: rolesNameKey, value: rolesNameValue);
+    await _storage.write(key: accountTypeNameKey, value: accountTypeNameValue);
+    await _storage.write(key: idNameKey, value: idNameValue.toString());
   }
 }

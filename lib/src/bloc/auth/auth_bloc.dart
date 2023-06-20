@@ -1,9 +1,11 @@
 import 'dart:async';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quickjobsbol/src/app/texts.dart';
 import 'package:quickjobsbol/src/models/user_model.dart';
+import 'package:quickjobsbol/src/services/auth_service.dart';
+import 'package:quickjobsbol/src/utils/validators.dart';
 import 'package:rxdart/rxdart.dart';
+
+import '../../app/texts.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -33,13 +35,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   @override
   Stream<AuthState> mapEventToState(AuthEvent event) async* {
-    // AuthService _authService = AuthService();
+    AuthService authService = AuthService();
     if (event is AuthButtonPressed) {
       yield AuthLoading();
       try {
         //TODO: Change api
-        // var signIn = await _authService.signIn(event.user);
-        var signIn = 200;
+        var signIn = await authService.signIn(event.user);
+        // var signIn = 200;
         if (signIn == 200) {
           yield AuthSuccess();
         } else {

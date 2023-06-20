@@ -1,9 +1,12 @@
-import 'dart:async';
+  import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quickjobsbol/src/app/texts.dart';
 import 'package:quickjobsbol/src/models/user_model.dart';
+import 'package:quickjobsbol/src/services/auth_service.dart';
+import 'package:quickjobsbol/src/utils/validators.dart';
 import 'package:rxdart/rxdart.dart';
+
+import '../../app/texts.dart';
 
 part 'sign_up_event.dart';
 part 'sign_up_state.dart';
@@ -28,10 +31,8 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   Stream<String> get cellphoneStream => _cellphoneController.stream;
   Stream<String> get confirmPasswordStream => _confirmPasswordController.stream;
   Stream<String> get dniStream => _dniController.stream;
-  Stream<String> get emailStream =>
-      _emailController.stream.transform(validateEmail);
-  Stream<String> get genderStream =>
-      _genderController.stream.transform(validateUser);
+  Stream<String> get emailStream => _emailController.stream.transform(validateEmail);
+  Stream<String> get genderStream => _genderController.stream.transform(validateUser);
   Stream<String> get nameStream => _nameController.stream;
   Stream<String> get passwordStream => _passwordController.stream;
   Stream<String> get surnameStream => _surnameController.stream;
@@ -40,8 +41,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   Function(String) get changeAccountType => _accountTypeController.sink.add;
   Function(String) get changeBirthOfDay => _birthOfDayController.sink.add;
   Function(String) get changeCellphone => _cellphoneController.sink.add;
-  Function(String) get changeConfirmPassword =>
-      _confirmPasswordController.sink.add;
+  Function(String) get changeConfirmPassword => _confirmPasswordController.sink.add;
   Function(String) get changeDni => _dniController.sink.add;
   Function(String) get changeEmail => _emailController.sink.add;
   Function(String) get changeGender => _genderController.sink.add;
@@ -49,15 +49,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   Function(String) get changePassword => _passwordController.sink.add;
   Function(String) get changeSurname => _surnameController.sink.add;
 
-  Stream<bool> get formSignUpValidStream => CombineLatestStream.combine7(
-      nameStream,
-      surnameStream,
-      dniStream,
-      cellphoneStream,
-      emailStream,
-      passwordStream,
-      confirmPasswordStream,
-      (n, s, d, c, e, p, cp) => true);
+  Stream<bool> get formSignUpValidStream => CombineLatestStream.combine7(nameStream, surnameStream, dniStream, cellphoneStream, emailStream, passwordStream, confirmPasswordStream, (n, s, d, c, e,p, cp) => true);
 
   void dispose() {
     _accountTypeController.close();
@@ -74,17 +66,17 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
   @override
   Stream<SignUpState> mapEventToState(SignUpEvent event) async* {
-    // AuthService _authService = AuthService();
+    AuthService authService = AuthService();
     if (event is SignUpButtonPressed) {
       yield SignUpLoading();
       await Future.delayed(const Duration(seconds: 10));
       try {
         //TODO: Change api
-        // var signIn = await _authService.signIn(event.user);
-        var signIn = 200;
-        if (signIn == 200) {
+        var signIn = await authService.signUp(event.user);
+        // var signIn = 200;
+        if(signIn == 200){
           yield SignUpSuccess();
-        } else {
+        }else{
           yield SignUpFailure('Error');
         }
       } catch (error) {
@@ -93,27 +85,31 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     }
   }
 
-  final validateEmail =
-      StreamTransformer<String, String>.fromHandlers(handleData: (email, sink) {
-    var pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regExp = RegExp(pattern);
 
-    if (regExp.hasMatch(email)) {
-      sink.add(email);
-    } else {
-      sink.addError('Error');
-    }
-  });
 
-  final validateUser =
-      StreamTransformer<String, String>.fromHandlers(handleData: (name, sink) {
-    String pattern = r'^[a-zA-ZáéíóúÁÉÍÓÚ ]+$';
-    RegExp regExp = RegExp(pattern);
-    if (regExp.hasMatch(name)) {
-      sink.add(name);
-    } else {
-      sink.addError(Texts.incorrectUser);
+  //
+  final validateEmail = StreamTransformer<String, String>.fromHandlers(
+    handleData: (email, sink){
+      var pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+      RegExp regExp = RegExp(pattern);
+
+      if(regExp.hasMatch(email)){
+        sink.add(email);
+      }else{
+        sink.addError('Error');
+      }
     }
-  });
+  );
+
+  final validateUser = StreamTransformer<String, String>.fromHandlers(
+    handleData: (name, sink){
+      String pattern = r'^[a-zA-ZáéíóúÁÉÍÓÚ ]+$';
+      RegExp regExp = RegExp(pattern);
+      if(regExp.hasMatch(name)){
+        sink.add(name);
+      }else{
+        sink.addError(Texts.incorrectUser);
+      }
+    }
+  );
 }

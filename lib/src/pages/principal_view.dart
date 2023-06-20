@@ -13,11 +13,22 @@ class PrincipalView extends StatefulWidget {
 
 class _PrincipalViewState extends State<PrincipalView> {
   final ServiceBloc serviceBloc = ServiceBloc();
+  var _account;
 
   @override
   void initState() {
     super.initState();
     serviceBloc.getServices();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      getAccount();
+      setState(() {
+        
+      });
+    });
+  }
+
+  Future getAccount() async{
+    _account = await serviceBloc.getAccount();
   }
 
 
@@ -30,7 +41,7 @@ class _PrincipalViewState extends State<PrincipalView> {
           automaticallyImplyLeading: false,
           backgroundColor: PalleteColor.whiteColor,
           elevation: 0,
-          title: Text('Bienvenido Jose', style: Theme.of(context).textTheme.titleLarge),
+          title: Text('Bienvenid@ ${_account!= null? _account['userName']: ''}', style: Theme.of(context).textTheme.titleLarge),
           actions: [
             Builder(
               builder: (context) => IconButton(
@@ -50,7 +61,6 @@ class _PrincipalViewState extends State<PrincipalView> {
             }else if(snapshot.hasError){
               return const Text('Error');
             }else{
-              print(snapshot.data);
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListView.builder(
@@ -160,7 +170,8 @@ class _PrincipalViewState extends State<PrincipalView> {
               ListTile(
                 leading: const Icon(Icons.logout),
                 title: Text(Texts.logout),
-                onTap: () {
+                onTap: () async{
+                  await serviceBloc.logout();
                   Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
                 },
               ),

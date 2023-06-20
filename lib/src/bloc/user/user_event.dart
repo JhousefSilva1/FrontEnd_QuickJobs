@@ -16,4 +16,6 @@ class UserUploaded extends UserState {
   List<Object> get props => [user];
 }
 
+class UserLoading extends UserState {}
+
 class UserError extends UserState {}

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:quickjobsbol/src/models/user_model.dart';
+import 'package:quickjobsbol/src/services/auth_service.dart';
 
 part 'user_event.dart';
 part 'user_state.dart';
@@ -11,15 +12,13 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   @override
   Stream<UserState> mapEventToState(UserEvent event) async* {
+    AuthService authService = AuthService();
     if (event is LoadUser) {
+      yield UserLoading();
       // Simula una carga asíncrona de datos
-      // await Future.delayed(Duration(seconds: 2));
-
       try {
-        // Realiza la lógica para cargar los datos iniciales del perfil
-        final user = UserModel(accountType: 'Employee', born: '23/10/1996', cellphone: '77748484', dni: '12345678', email: 'Jose.pozo@ucb.edu.bo', names: 'Jose', surnames: 'Pozo', gender: 'Masculino');
-
-        yield UserUploaded(user: user);
+        var profile = await authService.profile();
+        yield UserUploaded(user: profile);
       } catch (_) {
         yield UserError();
       }

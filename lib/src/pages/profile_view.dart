@@ -22,7 +22,7 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    final perfilBloc = BlocProvider.of<UserBloc>(context);
+    // final perfilBloc = BlocProvider.of<UserBloc>(context);
     // perfilBloc.add(LoadUser());
     return SafeArea(
       child: Scaffold(
@@ -157,10 +157,12 @@ class _ProfileViewState extends State<ProfileView> {
                   ],
                 ),
               );
+            }else if(state is UserLoading){
+              return const Center(child: CircularProgressIndicator());
             }else if(state is UserError){
-              return Text('Error al cargar el perfil');
+              return const Text('Error al cargar el perfil');
             }else{
-              return Center(child: CircularProgressIndicator());
+              return const Text('Error al cargar el perfil');
             }
           },
         ),
