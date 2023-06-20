@@ -1,28 +1,30 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quickjobsbol/src/app/texts.dart';
 import 'package:quickjobsbol/src/models/user_model.dart';
-import 'package:quickjobsbol/src/utils/validators.dart';
 import 'package:rxdart/rxdart.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
-class AuthBloc extends Bloc<AuthEvent, AuthState> with Validators{
+class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(AuthInitial());
 
   final _emailController = BehaviorSubject<String>();
   final _passwordController = BehaviorSubject<String>();
 
   // getters for Streams
-  Stream<String> get emailStream => _emailController.stream.transform(validateEmail);
+  Stream<String> get emailStream =>
+      _emailController.stream.transform(validateEmail);
   Stream<String> get passwordStream => _passwordController.stream;
 
   // getters for Sink
   Function(String) get changeEmail => _emailController.sink.add;
   Function(String) get changePassword => _passwordController.sink.add;
 
-  Stream<bool> get formLoginValidStream => CombineLatestStream.combine2(emailStream, passwordStream, (e, p) => true);
+  Stream<bool> get formLoginValidStream =>
+      CombineLatestStream.combine2(emailStream, passwordStream, (e, p) => true);
 
   void dispose() {
     _emailController.close();
@@ -38,9 +40,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with Validators{
         //TODO: Change api
         // var signIn = await _authService.signIn(event.user);
         var signIn = 200;
-        if(signIn == 200){
+        if (signIn == 200) {
           yield AuthSuccess();
-        }else{
+        } else {
           yield AuthFailure('Error');
         }
       } catch (error) {
@@ -48,4 +50,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with Validators{
       }
     }
   }
+
+  final validateEmail =
+      StreamTransformer<String, String>.fromHandlers(handleData: (email, sink) {
+    var pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regExp = RegExp(pattern);
+
+    if (regExp.hasMatch(email)) {
+      sink.add(email);
+    } else {
+      sink.addError('Error');
+    }
+  });
+
+  final validateUser =
+      StreamTransformer<String, String>.fromHandlers(handleData: (name, sink) {
+    String pattern = r'^[a-zA-ZáéíóúÁÉÍÓÚ ]+$';
+    RegExp regExp = RegExp(pattern);
+    if (regExp.hasMatch(name)) {
+      sink.add(name);
+    } else {
+      sink.addError(Texts.incorrectUser);
+    }
+  });
 }
