@@ -6,8 +6,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 part 'address_event.dart';
 part 'address_state.dart';
 
-class ServiceBloc extends Bloc<AddressEvent, AddressState>{
-  ServiceBloc() : super(AddressInitial());
+class AddressBloc extends Bloc<AddressEvent, AddressState>{
+  AddressBloc() : super(AddressInitial());
 
   final _storage = const FlutterSecureStorage();
   final _addressController = StreamController<List<String>>();

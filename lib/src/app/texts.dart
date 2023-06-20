@@ -4,6 +4,7 @@ class Texts{
   static String accept = 'Aceptar';
   static String accountAdjustment = 'Ajustes de cuenta';
   static String accountType = 'Tipo de cuenta';
+  static String beginDate = 'Fecha del servicio';
   static String birthOfDay = 'Fecha de nacimiento';
   static String cellphone = 'Celular';
   static String createAccount = 'Crear una cuenta en QuickJobs';
@@ -17,6 +18,7 @@ class Texts{
   static String emptyPassword = 'La contraseña no puede estar vacio';
   static String emptySurname = 'El apellido no puede estar vacio';
   static String emptyUser = 'El usuario no puede estar vacio';
+  static String endDate = 'Fecha final del servicio';
   static String failedRegisterUser = 'Error al registrar usuario';
   static String gender = 'Genero';
   static String hintBirthOfDay = '12/02/2000';

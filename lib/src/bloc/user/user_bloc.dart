@@ -15,7 +15,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     AuthService authService = AuthService();
     if (event is LoadUser) {
       yield UserLoading();
-      // Simula una carga asíncrona de datos
       try {
         var profile = await authService.profile();
         yield UserUploaded(user: profile);

@@ -134,6 +134,8 @@ class _ProfileViewState extends State<ProfileView> {
                           ),
                           ListTile(
                             onTap: () async{
+                              // await serviceBloc.logout();
+                              Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
                             },
                             dense: true,
                             title: Row(

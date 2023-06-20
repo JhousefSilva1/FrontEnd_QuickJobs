@@ -21,17 +21,13 @@ class _PrincipalViewState extends State<PrincipalView> {
     serviceBloc.getServices();
     WidgetsBinding.instance.addPostFrameCallback((_){
       getAccount();
-      setState(() {
-        
-      });
+      setState(() { });
     });
   }
 
   Future getAccount() async{
     _account = await serviceBloc.getAccount();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +57,7 @@ class _PrincipalViewState extends State<PrincipalView> {
             }else if(snapshot.hasError){
               return const Text('Error');
             }else{
+              print(snapshot.data);
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListView.builder(
@@ -77,12 +74,12 @@ class _PrincipalViewState extends State<PrincipalView> {
                       content: GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 7,
+                        itemCount: snapshot.data!.length,
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3,childAspectRatio: 1,),
                         itemBuilder: (contxt, indx){
                           return GestureDetector(
-                            onTap: () => Navigator.of(context).pushNamed('/request', arguments: indx),
-                            child: const Card(
+                            onTap: () => Navigator.of(context).pushNamed('/request', arguments: [snapshot.data![indx].idService, snapshot.data![indx].nameService]),
+                            child: Card(
                               shadowColor: PalleteColor.primaryColor,
                               elevation: 0,
                               margin: EdgeInsets.all(4.0),
@@ -93,9 +90,9 @@ class _PrincipalViewState extends State<PrincipalView> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Icon(Icons.lightbulb),
+                                      snapshot.data![indx].idService == 1 ? Icon(Icons.lightbulb): snapshot.data![indx].idService == 2? Icon(Icons.water_drop_sharp): snapshot.data![indx].idService == 3? Icon(Icons.brush_sharp): snapshot.data![indx].idService == 4? Icon(Icons.carpenter_rounded): snapshot.data![indx].idService == 5? Icon(Icons.cookie_sharp): snapshot.data![indx].idService == 6? Icon(Icons.eco_outlined): snapshot.data![indx].idService == 7? Icon(Icons.car_repair_sharp): Icon(Icons.wash_outlined),
                                       SizedBox(height: 8),
-                                      Text('Electricista')
+                                      Text(snapshot.data![indx].nameService)
                                     ],
                                   )
                                 ),
@@ -116,21 +113,21 @@ class _PrincipalViewState extends State<PrincipalView> {
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
-              const UserAccountsDrawerHeader(
-                decoration: BoxDecoration(color: PalleteColor.primaryColor),
+              UserAccountsDrawerHeader(
+                decoration: const BoxDecoration(color: PalleteColor.primaryColor),
                 accountName: Text(
-                  'Jose Pozo',
-                  style: TextStyle(
+                '${_account!= null? _account['userName']: ''} ${_account!= null? _account['surnamesName']: ''}',
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 accountEmail: Text(
-                  'jose@gmail.com',
-                  style: TextStyle(
+                  '${_account!= null? _account['emailName']: ''}',
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                currentAccountPicture: Icon(Icons.account_circle, color: PalleteColor.whiteColor, size: 70),
+                currentAccountPicture: const Icon(Icons.account_circle, color: PalleteColor.whiteColor, size: 70),
               ),
               ListTile(
                 leading: const Icon(Icons.home),

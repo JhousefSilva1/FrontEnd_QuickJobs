@@ -1,4 +1,4 @@
-  import 'dart:async';
+import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickjobsbol/src/models/user_model.dart';
@@ -69,11 +69,8 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     AuthService authService = AuthService();
     if (event is SignUpButtonPressed) {
       yield SignUpLoading();
-      await Future.delayed(const Duration(seconds: 10));
       try {
-        //TODO: Change api
         var signIn = await authService.signUp(event.user);
-        // var signIn = 200;
         if(signIn == 200){
           yield SignUpSuccess();
         }else{

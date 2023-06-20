@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:quickjobsbol/src/app/route_generator.dart';
+import 'package:quickjobsbol/src/bloc/address/address_bloc.dart';
 import 'package:quickjobsbol/src/bloc/auth/auth_bloc.dart';
+import 'package:quickjobsbol/src/bloc/request/request_bloc.dart';
 import 'package:quickjobsbol/src/bloc/service/service_bloc.dart';
 import 'package:quickjobsbol/src/bloc/sign_up/sign_up_bloc.dart';
 import 'package:quickjobsbol/src/bloc/user/user_bloc.dart';
@@ -17,9 +19,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => AddressBloc()),
         BlocProvider(create: (context) => AuthBloc()),
         BlocProvider(create: (context) => ServiceBloc()),
         BlocProvider(create: (context) => SignUpBloc()),
+        BlocProvider(create: (context) => RequestBloc()),
         BlocProvider(create: (context) => UserBloc())
       ],
       child: MaterialApp(

@@ -12,24 +12,13 @@ class AuthService{
   Future profile() async{
     String? id = await _storage.read(key: 'id');
     String url = '${Globals.apiUrl}/persons/$id';
-    // var body = jsonEncode({
-    //   'email': user.email,
-    //   'password': user.password
-    // });
     final response = await _services.getHttp(url, 1);
-    print(response.body);
     if(response.statusCode == 200){
-      // final decodedData = json.decode(response.body);
       final userModel = userModelFromJson(response.body);
-      // final token = decodedData['token']; //extract token value from http authentication response
-      // var jwtToken = _services.parseJwtPayLoad(token);
-      // await _services.secureStorage(decodedData, jwtToken);
-      // print(decodedData);
       return userModel;
     }else{
       return 0;
     }
-
   }
 
   Future signIn(UserModel user) async{
@@ -73,13 +62,7 @@ class AuthService{
       "txDate": user.txDate
     });
     final response = await _services.postHttp(url, body, 0);
-    print(response.body);
     if(response.statusCode == 200){
-      // final decodedData = json.decode(response.body);
-      // final token = decodedData['token']; //extract token value from http authentication response
-      // var jwtToken = _services.parseJwtPayLoad(token);
-      // await _services.secureStorage(decodedData, jwtToken);
-      // print(decodedData);
       return 200;
     }else{
       return 0;

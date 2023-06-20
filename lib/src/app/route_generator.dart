@@ -28,7 +28,7 @@ class RouteGenerator{
       case '/profile':
         return MaterialPageRoute(builder: (context) => const ProfileView());
       case '/request':
-        return MaterialPageRoute(builder: (context) => RequestView(requestId: args as int));
+        return MaterialPageRoute(builder: (context) => RequestView(requestId: args as List));
       case '/services':
         return MaterialPageRoute(builder: (context) => const ServicesView());
       case '/signIn':
