@@ -21,14 +21,6 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
   final _idRequestController = BehaviorSubject<String>();
   final _idServiceController = BehaviorSubject<String>();
   final _orderStatusController = BehaviorSubject<String>();
-  // final _cellphoneController = BehaviorSubject<String>();
-  // final _confirmPasswordController = BehaviorSubject<String>();
-  // final _dniController = BehaviorSubject<String>();
-  // final _emailController = BehaviorSubject<String>();
-  // final _genderController = BehaviorSubject<String>();
-  // final _nameController = BehaviorSubject<String>();
-  // final _passwordController = BehaviorSubject<String>();
-  // final _surnameController = BehaviorSubject<String>();
 
   // getters for Streams
   Stream<String> get beginDateStream => _beginDateController.stream;
@@ -64,12 +56,12 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
 
   @override
   Stream<RequestState> mapEventToState(RequestEvent event) async* {
-    // AuthService authService = AuthService();
+    RequestService requestService = RequestService();
     if (event is RequestButtonPressed) {
       yield RequestLoading();
       try {
-        // var signIn = await authService.signUp(event.user);
-        var signIn = 200;
+        var signIn = await requestService.addRequest(event.request);
+        // var signIn = 200;
         if(signIn == 200){
           yield RequestSuccess();
         }else{
@@ -89,12 +81,13 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
     try {
       // Lógica para obtener los nombres desde una fuente de datos remota
       final data = await requestService.getRequest();
+      List<RequestModel> newList = [];
       for (var i = 0; i < data.length; i++) {
         if(data[i].orderStatus == serviceType){
-          _servicesController.add(data);
-        }else{
-          _servicesController.add([]);
+          newList.add(data[i]);
         }
+        _servicesController.add(newList);
+
       }
     } catch (e) {
       print(e);

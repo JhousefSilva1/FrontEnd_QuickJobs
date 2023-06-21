@@ -1,10 +1,13 @@
+import 'package:dart_ipify/dart_ipify.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:quickalert/quickalert.dart';
+import 'package:quickjobsbol/src/app/globals.dart';
 import 'package:quickjobsbol/src/app/texts.dart';
 import 'package:quickjobsbol/src/bloc/request/request_bloc.dart';
+import 'package:quickjobsbol/src/models/request_model.dart';
 import 'package:quickjobsbol/src/style/pallete_color.dart';
 
 class RequestView extends StatefulWidget {
@@ -17,6 +20,7 @@ class RequestView extends StatefulWidget {
 
 class _RequestViewState extends State<RequestView> {
   final _formKey = GlobalKey<FormState>();
+  RequestModel _requestModel = RequestModel();
   String beginDate = '';
   String endDate = '';
   String title = '';
@@ -134,7 +138,7 @@ class _RequestViewState extends State<RequestView> {
                                     FocusScope.of(context).requestFocus(FocusNode());
                                     _selectDate(context, beginDateController);
                                   },
-                                  // onSaved: (value) => _userModel.born = value,
+                                  // onSaved: (value) => _requestModel.beginDate = value,
                                   style: Theme.of(context).textTheme.headlineMedium,
                                   validator: (value) => value!.isEmpty? Texts.emptyBirthOfDay: null,
                                   enableInteractiveSelection: false,
@@ -227,147 +231,192 @@ class _RequestViewState extends State<RequestView> {
                                 );
                               },
                             ),
+                            // StreamBuilder(
+                            //   stream: requestBloc.idAddressStream,
+                            //   builder: (context, snapshot) {
+                            //     return TextFormField(
+                            //       decoration: InputDecoration(
+                            //         contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                            //         enabledBorder: const OutlineInputBorder(
+                            //           borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                            //           borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
+                            //         ),
+                            //         errorBorder: const OutlineInputBorder(
+                            //           borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                            //           borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
+                            //         ),
+                            //         errorText: /*snapshot.hasError? Texts.incorrectUser: */'',
+                            //         fillColor: Colors.white,
+                            //         filled: true,
+                            //         focusedBorder: const OutlineInputBorder(
+                            //           borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                            //           borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
+                            //         ),
+                            //         focusedErrorBorder: const OutlineInputBorder(
+                            //           borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                            //           borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
+                            //         ),
+                            //         hintText: 'La Paz',
+                            //         labelText: 'Ciudad',
+                            //         labelStyle: /*snapshot.hasError? Theme.of(context).textTheme.bodyMedium!.merge(const TextStyle(color: PalleteColor.redColor)): */Theme.of(context).textTheme.bodyMedium,
+                            //         prefixIcon: const Icon(Icons.account_circle_rounded, color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor),
+                            //         suffixIconConstraints: const BoxConstraints(maxWidth: 50.0, minWidth: 30.0, minHeight: 10.0),
+                            //       ),
+                            //       keyboardType: TextInputType.text,
+                            //       maxLines: 1,
+                            //       // onChanged: widget.authBloc.changeEmail,
+                            //       // onSaved: (value) => _userModel.email = value,
+                            //       style: Theme.of(context).textTheme.headlineMedium,
+                            //       // validator: (value) => value!.isEmpty? Texts.emptyEmail: null,
+                            //     );
+                            //   },
+                            // ),
+                            // StreamBuilder(
+                            //   stream: requestBloc.,
+                            //   builder: (context, snapshot) {
+                            //     return TextFormField(
+                            //       decoration: InputDecoration(
+                            //         contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                            //         enabledBorder: const OutlineInputBorder(
+                            //           borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                            //           borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
+                            //         ),
+                            //         errorBorder: const OutlineInputBorder(
+                            //           borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                            //           borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
+                            //         ),
+                            //         errorText: /*snapshot.hasError? Texts.incorrectUser: */'',
+                            //         fillColor: Colors.white,
+                            //         filled: true,
+                            //         focusedBorder: const OutlineInputBorder(
+                            //           borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                            //           borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
+                            //         ),
+                            //         focusedErrorBorder: const OutlineInputBorder(
+                            //           borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                            //           borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
+                            //         ),
+                            //         hintText: 'La Paz',
+                            //         labelText: 'Ciudad',
+                            //         labelStyle: /*snapshot.hasError? Theme.of(context).textTheme.bodyMedium!.merge(const TextStyle(color: PalleteColor.redColor)): */Theme.of(context).textTheme.bodyMedium,
+                            //         prefixIcon: const Icon(Icons.account_circle_rounded, color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor),
+                            //         suffixIconConstraints: const BoxConstraints(maxWidth: 50.0, minWidth: 30.0, minHeight: 10.0),
+                            //       ),
+                            //       keyboardType: TextInputType.text,
+                            //       maxLines: 1,
+                            //       // onChanged: widget.authBloc.changeEmail,
+                            //       // onSaved: (value) => _userModel.email = value,
+                            //       style: Theme.of(context).textTheme.headlineMedium,
+                            //       // validator: (value) => value!.isEmpty? Texts.emptyEmail: null,
+                            //     );
+                            //   },
+                            // ),
                             
-                            TextFormField(
-                              decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                                enabledBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                  borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
-                                ),
-                                errorBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                  borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
-                                ),
-                                errorText: /*snapshot.hasError? Texts.incorrectUser: */'',
-                                fillColor: Colors.white,
-                                filled: true,
-                                focusedBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                  borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
-                                ),
-                                focusedErrorBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                  borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
-                                ),
-                                hintText: 'La Paz',
-                                labelText: 'Ciudad',
-                                labelStyle: /*snapshot.hasError? Theme.of(context).textTheme.bodyMedium!.merge(const TextStyle(color: PalleteColor.redColor)): */Theme.of(context).textTheme.bodyMedium,
-                                prefixIcon: const Icon(Icons.account_circle_rounded, color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor),
-                                suffixIconConstraints: const BoxConstraints(maxWidth: 50.0, minWidth: 30.0, minHeight: 10.0),
-                              ),
-                              keyboardType: TextInputType.text,
-                              maxLines: 1,
-                              // onChanged: widget.authBloc.changeEmail,
-                              // onSaved: (value) => _userModel.email = value,
-                              style: Theme.of(context).textTheme.headlineMedium,
-                              // validator: (value) => value!.isEmpty? Texts.emptyEmail: null,
-                            ),
-                            TextFormField(
-                              decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                                enabledBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                  borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
-                                ),
-                                errorBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                  borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
-                                ),
-                                errorText: /*snapshot.hasError? Texts.incorrectUser: */'',
-                                fillColor: Colors.white,
-                                filled: true,
-                                focusedBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                  borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
-                                ),
-                                focusedErrorBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                  borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
-                                ),
-                                hintText: 'Achumani',
-                                labelText: 'Calle o Avenida',
-                                labelStyle: /*snapshot.hasError? Theme.of(context).textTheme.bodyMedium!.merge(const TextStyle(color: PalleteColor.redColor)): */Theme.of(context).textTheme.bodyMedium,
-                                prefixIcon: const Icon(Icons.account_circle_rounded, color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor),
-                                suffixIconConstraints: const BoxConstraints(maxWidth: 50.0, minWidth: 30.0, minHeight: 10.0),
-                              ),
-                              keyboardType: TextInputType.text,
-                              maxLines: 1,
-                              // onChanged: widget.authBloc.changeEmail,
-                              // onSaved: (value) => _userModel.email = value,
-                              style: Theme.of(context).textTheme.headlineMedium,
-                              // validator: (value) => value!.isEmpty? Texts.emptyEmail: null,
-                            ),
-                            TextFormField(
-                              decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                                enabledBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                  borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
-                                ),
-                                errorBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                  borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
-                                ),
-                                errorText: /*snapshot.hasError? Texts.incorrectUser: */'',
-                                fillColor: Colors.white,
-                                filled: true,
-                                focusedBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                  borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
-                                ),
-                                focusedErrorBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                  borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
-                                ),
-                                hintText: 'Achumani',
-                                labelText: 'Zona',
-                                labelStyle: /*snapshot.hasError? Theme.of(context).textTheme.bodyMedium!.merge(const TextStyle(color: PalleteColor.redColor)): */Theme.of(context).textTheme.bodyMedium,
-                                prefixIcon: const Icon(Icons.account_circle_rounded, color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor),
-                                suffixIconConstraints: const BoxConstraints(maxWidth: 50.0, minWidth: 30.0, minHeight: 10.0),
-                              ),
-                              keyboardType: TextInputType.text,
-                              maxLines: 1,
-                              // onChanged: widget.authBloc.changeEmail,
-                              // onSaved: (value) => _userModel.email = value,
-                              style: Theme.of(context).textTheme.headlineMedium,
-                              // validator: (value) => value!.isEmpty? Texts.emptyEmail: null,
-                            ),
-                            TextFormField(
-                              decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                                enabledBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                  borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
-                                ),
-                                errorBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                  borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
-                                ),
-                                errorText: /*snapshot.hasError? Texts.incorrectUser: */'',
-                                fillColor: Colors.white,
-                                filled: true,
-                                focusedBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                  borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
-                                ),
-                                focusedErrorBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                  borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
-                                ),
-                                hintText: '77790909',
-                                labelText: 'Numero',
-                                labelStyle: /*snapshot.hasError? Theme.of(context).textTheme.bodyMedium!.merge(const TextStyle(color: PalleteColor.redColor)): */Theme.of(context).textTheme.bodyMedium,
-                                prefixIcon: const Icon(Icons.account_circle_rounded, color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor),
-                                suffixIconConstraints: const BoxConstraints(maxWidth: 50.0, minWidth: 30.0, minHeight: 10.0),
-                              ),
-                              keyboardType: TextInputType.emailAddress,
-                              maxLines: 1,
-                              // onChanged: widget.authBloc.changeEmail,
-                              // onSaved: (value) => _userModel.email = value,
-                              style: Theme.of(context).textTheme.headlineMedium,
-                              // validator: (value) => value!.isEmpty? Texts.emptyEmail: null,
-                            ),
+                            // TextFormField(
+                            //   decoration: InputDecoration(
+                            //     contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                            //     enabledBorder: const OutlineInputBorder(
+                            //       borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                            //       borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
+                            //     ),
+                            //     errorBorder: const OutlineInputBorder(
+                            //       borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                            //       borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
+                            //     ),
+                            //     errorText: /*snapshot.hasError? Texts.incorrectUser: */'',
+                            //     fillColor: Colors.white,
+                            //     filled: true,
+                            //     focusedBorder: const OutlineInputBorder(
+                            //       borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                            //       borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
+                            //     ),
+                            //     focusedErrorBorder: const OutlineInputBorder(
+                            //       borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                            //       borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
+                            //     ),
+                            //     hintText: 'Achumani',
+                            //     labelText: 'Calle o Avenida',
+                            //     labelStyle: /*snapshot.hasError? Theme.of(context).textTheme.bodyMedium!.merge(const TextStyle(color: PalleteColor.redColor)): */Theme.of(context).textTheme.bodyMedium,
+                            //     prefixIcon: const Icon(Icons.account_circle_rounded, color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor),
+                            //     suffixIconConstraints: const BoxConstraints(maxWidth: 50.0, minWidth: 30.0, minHeight: 10.0),
+                            //   ),
+                            //   keyboardType: TextInputType.text,
+                            //   maxLines: 1,
+                            //   // onChanged: widget.authBloc.changeEmail,
+                            //   // onSaved: (value) => _userModel.email = value,
+                            //   style: Theme.of(context).textTheme.headlineMedium,
+                            //   // validator: (value) => value!.isEmpty? Texts.emptyEmail: null,
+                            // ),
+                            // TextFormField(
+                            //   decoration: InputDecoration(
+                            //     contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                            //     enabledBorder: const OutlineInputBorder(
+                            //       borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                            //       borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
+                            //     ),
+                            //     errorBorder: const OutlineInputBorder(
+                            //       borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                            //       borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
+                            //     ),
+                            //     errorText: /*snapshot.hasError? Texts.incorrectUser: */'',
+                            //     fillColor: Colors.white,
+                            //     filled: true,
+                            //     focusedBorder: const OutlineInputBorder(
+                            //       borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                            //       borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
+                            //     ),
+                            //     focusedErrorBorder: const OutlineInputBorder(
+                            //       borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                            //       borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
+                            //     ),
+                            //     hintText: 'Achumani',
+                            //     labelText: 'Zona',
+                            //     labelStyle: /*snapshot.hasError? Theme.of(context).textTheme.bodyMedium!.merge(const TextStyle(color: PalleteColor.redColor)): */Theme.of(context).textTheme.bodyMedium,
+                            //     prefixIcon: const Icon(Icons.account_circle_rounded, color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor),
+                            //     suffixIconConstraints: const BoxConstraints(maxWidth: 50.0, minWidth: 30.0, minHeight: 10.0),
+                            //   ),
+                            //   keyboardType: TextInputType.text,
+                            //   maxLines: 1,
+                            //   // onChanged: widget.authBloc.changeEmail,
+                            //   // onSaved: (value) => _userModel.email = value,
+                            //   style: Theme.of(context).textTheme.headlineMedium,
+                            //   // validator: (value) => value!.isEmpty? Texts.emptyEmail: null,
+                            // ),
+                            // TextFormField(
+                            //   decoration: InputDecoration(
+                            //     contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                            //     enabledBorder: const OutlineInputBorder(
+                            //       borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                            //       borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
+                            //     ),
+                            //     errorBorder: const OutlineInputBorder(
+                            //       borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                            //       borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
+                            //     ),
+                            //     errorText: /*snapshot.hasError? Texts.incorrectUser: */'',
+                            //     fillColor: Colors.white,
+                            //     filled: true,
+                            //     focusedBorder: const OutlineInputBorder(
+                            //       borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                            //       borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
+                            //     ),
+                            //     focusedErrorBorder: const OutlineInputBorder(
+                            //       borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                            //       borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
+                            //     ),
+                            //     hintText: '77790909',
+                            //     labelText: 'Numero',
+                            //     labelStyle: /*snapshot.hasError? Theme.of(context).textTheme.bodyMedium!.merge(const TextStyle(color: PalleteColor.redColor)): */Theme.of(context).textTheme.bodyMedium,
+                            //     prefixIcon: const Icon(Icons.account_circle_rounded, color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor),
+                            //     suffixIconConstraints: const BoxConstraints(maxWidth: 50.0, minWidth: 30.0, minHeight: 10.0),
+                            //   ),
+                            //   keyboardType: TextInputType.emailAddress,
+                            //   maxLines: 1,
+                            //   // onChanged: widget.authBloc.changeEmail,
+                            //   // onSaved: (value) => _userModel.email = value,
+                            //   style: Theme.of(context).textTheme.headlineMedium,
+                            //   // validator: (value) => value!.isEmpty? Texts.emptyEmail: null,
+                            // ),
           
                           ],
                         ),
@@ -385,20 +434,20 @@ class _RequestViewState extends State<RequestView> {
                             backgroundColor: PalleteColor.strokeColor,
                             shape: const StadiumBorder(),
                           ), // snapshot.hasData? () => submit(user): null,
-                          child: Text('Cancelar', style: Theme.of(context).textTheme.titleLarge!.merge(TextStyle(color: Theme.of(context).primaryColor))),
+                          child: Text('Cancelar', style: Theme.of(context).textTheme.bodyLarge!.merge(TextStyle(color: Theme.of(context).primaryColor))),
                         ),
                       ),
                       SizedBox(width: MediaQuery.of(context).size.width * .02),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * .45,
                           child: ElevatedButton(
-                          onPressed: null,
+                          onPressed: () => submit(),
                           style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height*0.015, horizontal: MediaQuery.of(context).size.width*0.05),
                             backgroundColor: PalleteColor.strokeColor,
                             shape: const StadiumBorder(),
                           ), // snapshot.hasData? () => submit(user): null,
-                          child: Text('Publicar', style: Theme.of(context).textTheme.titleLarge!.merge(TextStyle(color: Theme.of(context).primaryColor))),
+                          child: Text('Publicar', style: Theme.of(context).textTheme.bodyLarge!.merge(TextStyle(color: Theme.of(context).primaryColor))),
                         ),
                       ),
                     ],
@@ -468,5 +517,33 @@ class _RequestViewState extends State<RequestView> {
         endDate = dateController.text;
       });
     }
+  }
+
+  bool _validateAndSave() {
+    final form = _formKey.currentState;
+    if (form!.validate()) {
+      form.save();
+      return true;
+    }
+    return false;
+  }
+
+  void submit() async {
+    // if(_validateAndSave()){
+      final ipv4 = await Ipify.ipv4();
+      _requestModel.txHost = ipv4;
+      _requestModel.beginDate = '$beginDate $endDate';
+      _requestModel.addressId = 1;
+      _requestModel.personId = 2;
+      _requestModel.person2Id = 2;
+      _requestModel.serviceId = id;
+      _requestModel.orderStatus = 3;
+      _requestModel.status = true;
+      _requestModel.version = Globals.version;
+      _requestModel.txDate = DateFormat('dd-MM-yyyy').format(DateTime.now()).toString();
+      _requestModel.txUser = 'admin';
+
+      BlocProvider.of<RequestBloc>(context).add(RequestButtonPressed(request: _requestModel));
+    // }
   }
 }

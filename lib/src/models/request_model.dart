@@ -10,42 +10,42 @@ List<RequestModel> requestModelFromJson(String str) => List<RequestModel>.from(j
 String requestModelToJson(List<RequestModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class RequestModel {
-  final int idRequest;
-  final int personId;
-  final int person2Id;
-  final int serviceId;
-  final int addressId;
-  final String beginDate;
-  final String endDate;
-  final int orderStatus;
-  final bool status;
-  final int version;
-  final String txUser;
-  final String txHost;
-  final String txDate;
-  final Servicee servicee;
-  final Address address;
-  final Person person;
-  final Person person1;
+  int? idRequest;
+  int? personId;
+  int? person2Id;
+  int? serviceId;
+  int? addressId;
+  String? beginDate;
+  String? endDate;
+  int? orderStatus;
+  bool? status;
+  int? version;
+  String? txUser;
+  String? txHost;
+  String? txDate;
+  Servicee? servicee;
+  Address? address;
+  Person? person;
+  Person? person1;
 
   RequestModel({
-    required this.idRequest,
-    required this.personId,
-    required this.person2Id,
-    required this.serviceId,
-    required this.addressId,
-    required this.beginDate,
-    required this.endDate,
-    required this.orderStatus,
-    required this.status,
-    required this.version,
-    required this.txUser,
-    required this.txHost,
-    required this.txDate,
-    required this.servicee,
-    required this.address,
-    required this.person,
-    required this.person1,
+    this.idRequest,
+    this.personId,
+    this.person2Id,
+    this.serviceId,
+    this.addressId,
+    this.beginDate,
+    this.endDate,
+    this.orderStatus,
+    this.status,
+    this.version,
+    this.txUser,
+    this.txHost,
+    this.txDate,
+    this.servicee,
+    this.address,
+    this.person,
+    this.person1,
   });
 
   factory RequestModel.fromJson(Map<String, dynamic> json) => RequestModel(
@@ -82,10 +82,10 @@ class RequestModel {
     "txUser": txUser,
     "txHost": txHost,
     "txDate": txDate,
-    "servicee": servicee.toJson(),
-    "address": address.toJson(),
-    "person": person.toJson(),
-    "person1": person1.toJson(),
+    "servicee": servicee!.toJson(),
+    "address": address!.toJson(),
+    "person": person!.toJson(),
+    "person1": person1!.toJson(),
   };
 }
 

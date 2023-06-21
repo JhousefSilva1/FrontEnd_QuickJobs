@@ -8,10 +8,10 @@ class RequestEvent {
 }
 
 class RequestButtonPressed extends RequestEvent {
-  // UserModel user;
+  RequestModel request;
 
-  // RequestButtonPressed({required this.user});
+  RequestButtonPressed({required this.request});
 
-  // @override
-  // List<Object> get props => [user];
+  @override
+  List<Object> get props => [request];
 }
