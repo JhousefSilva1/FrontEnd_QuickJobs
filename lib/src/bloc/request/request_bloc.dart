@@ -95,6 +95,27 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
     }
   }
 
+  Future<int> updateRequest(RequestModel request, int idRequest) async {
+    try {
+      // Lógica para obtener los nombres desde una fuente de datos remota
+      final data = await requestService.updateRequest(request, idRequest);
+      print(data);
+      return 200;
+      // List<RequestModel> newList = [];
+      // for (var i = 0; i < data.length; i++) {
+      //   if(data[i].orderStatus == serviceType){
+      //     newList.add(data[i]);
+      //   }
+      //   _servicesController.add(newList);
+
+      // }
+    } catch (e) {
+      print(e);
+      // _servicesController.addError(e);
+      return 0;
+    }
+  }
+
   final validateEmail = StreamTransformer<String, String>.fromHandlers(
     handleData: (email, sink){
       var pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';

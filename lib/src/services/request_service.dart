@@ -45,4 +45,31 @@ class RequestService{
       return [];
     }
   }
+
+  Future updateRequest(RequestModel request, int idRequest) async{
+    String? id = await _storage.read(key: 'id');
+    String url = '${Globals.apiUrl}/requests/persons/$id';
+    var body = jsonEncode({
+      'idRequest': idRequest,
+      'personId': id,
+      'person2Id': id,
+      'serviceId': request.serviceId,
+      'addressId': request.addressId,
+      'beginDate': request.beginDate,
+      'endDate': request.beginDate,
+      'orderStatus': 1,
+      'status': request.status,
+      'version': request.version,
+      'txUser': request.txUser,
+      'txHost': request.txHost,
+      'txDate': request.txDate
+    });
+    final response = await _services.putHttp(url, body, 1);
+    print(response.body);
+    if(response.statusCode == 200){
+      return 200;
+    }else{
+      return 0;
+    }
+  }
 }
