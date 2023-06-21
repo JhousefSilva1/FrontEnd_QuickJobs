@@ -6,12 +6,10 @@ import 'package:quickjobsbol/src/services/auth_service.dart';
 import 'package:quickjobsbol/src/utils/validators.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../app/texts.dart';
-
 part 'auth_event.dart';
 part 'auth_state.dart';
 
-class AuthBloc extends Bloc<AuthEvent, AuthState> {
+class AuthBloc extends Bloc<AuthEvent, AuthState> with Validators{
   AuthBloc() : super(AuthInitial());
 
   final _emailController = BehaviorSubject<String>();
@@ -51,28 +49,4 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     }
   }
-
-  final validateEmail =
-      StreamTransformer<String, String>.fromHandlers(handleData: (email, sink) {
-    var pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regExp = RegExp(pattern);
-
-    if (regExp.hasMatch(email)) {
-      sink.add(email);
-    } else {
-      sink.addError('Error');
-    }
-  });
-
-  final validateUser =
-      StreamTransformer<String, String>.fromHandlers(handleData: (name, sink) {
-    String pattern = r'^[a-zA-ZáéíóúÁÉÍÓÚ ]+$';
-    RegExp regExp = RegExp(pattern);
-    if (regExp.hasMatch(name)) {
-      sink.add(name);
-    } else {
-      sink.addError(Texts.incorrectUser);
-    }
-  });
 }

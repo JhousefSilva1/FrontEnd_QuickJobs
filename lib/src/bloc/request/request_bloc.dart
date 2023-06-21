@@ -1,4 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quickjobsbol/src/app/texts.dart';
+import 'package:quickjobsbol/src/models/request_model.dart';
+import 'package:quickjobsbol/src/services/request_service.dart';
 import 'package:quickjobsbol/src/utils/validators.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -65,9 +70,9 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
       try {
         // var signIn = await authService.signUp(event.user);
         var signIn = 200;
-        if (signIn == 200) {
+        if(signIn == 200){
           yield RequestSuccess();
-        } else {
+        }else{
           yield RequestFailure('Error');
         }
       } catch (error) {
@@ -75,4 +80,50 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
       }
     }
   }
+
+  final _servicesController = StreamController<List<RequestModel>>();
+  final requestService = RequestService();
+  Stream<List<RequestModel>> get requestStream => _servicesController.stream;
+
+  Future<void> getRequest(int serviceType) async {
+    try {
+      // Lógica para obtener los nombres desde una fuente de datos remota
+      final data = await requestService.getRequest();
+      for (var i = 0; i < data.length; i++) {
+        if(data[i].orderStatus == serviceType){
+          _servicesController.add(data);
+        }else{
+          _servicesController.add([]);
+        }
+      }
+    } catch (e) {
+      print(e);
+      _servicesController.addError(e);
+    }
+  }
+
+  final validateEmail = StreamTransformer<String, String>.fromHandlers(
+    handleData: (email, sink){
+      var pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+      RegExp regExp = RegExp(pattern);
+
+      if(regExp.hasMatch(email)){
+        sink.add(email);
+      }else{
+        sink.addError('Error');
+      }
+    }
+  );
+
+  final validateUser = StreamTransformer<String, String>.fromHandlers(
+    handleData: (name, sink){
+      String pattern = r'^[a-zA-ZáéíóúÁÉÍÓÚ ]+$';
+      RegExp regExp = RegExp(pattern);
+      if(regExp.hasMatch(name)){
+        sink.add(name);
+      }else{
+        sink.addError(Texts.incorrectUser);
+      }
+    }
+  );
 }

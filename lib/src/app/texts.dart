@@ -5,6 +5,7 @@ class Texts{
   static String accountAdjustment = 'Ajustes de cuenta';
   static String accountType = 'Tipo de cuenta';
   static String beginDate = 'Fecha del servicio';
+  static String beginHour = 'Hora del servicio';
   static String birthOfDay = 'Fecha de nacimiento';
   static String cellphone = 'Celular';
   static String createAccount = 'Crear una cuenta en QuickJobs';

@@ -1,12 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quickjobsbol/src/app/texts.dart';
 import 'package:quickjobsbol/src/models/user_model.dart';
 import 'package:quickjobsbol/src/services/auth_service.dart';
 import 'package:quickjobsbol/src/utils/validators.dart';
 import 'package:rxdart/rxdart.dart';
-
-import '../../app/texts.dart';
 
 part 'sign_up_event.dart';
 part 'sign_up_state.dart';
@@ -82,9 +81,6 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     }
   }
 
-
-
-  //
   final validateEmail = StreamTransformer<String, String>.fromHandlers(
     handleData: (email, sink){
       var pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';

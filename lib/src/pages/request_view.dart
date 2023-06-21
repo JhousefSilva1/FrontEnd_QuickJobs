@@ -6,6 +6,7 @@ import 'package:quickalert/quickalert.dart';
 import 'package:quickjobsbol/src/app/texts.dart';
 import 'package:quickjobsbol/src/bloc/request/request_bloc.dart';
 import 'package:quickjobsbol/src/style/pallete_color.dart';
+
 class RequestView extends StatefulWidget {
   RequestView({super.key, required this.requestId});
   List requestId;
@@ -167,7 +168,7 @@ class _RequestViewState extends State<RequestView> {
                                       borderSide: BorderSide(color: snapshot.hasError? PalleteColor.redColor: PalleteColor.primaryColor, width: 1.2),
                                     ),
                                     hintText: Texts.hintBirthOfDay,
-                                    labelText: Texts.endDate,
+                                    labelText: Texts.beginHour,
                                     labelStyle: snapshot.hasError? Theme.of(context).textTheme.bodyMedium!.merge(const TextStyle(color: PalleteColor.redColor)): Theme.of(context).textTheme.bodyMedium,
                                     prefixIcon: Icon(Icons.date_range, color: snapshot.hasError? PalleteColor.redColor: PalleteColor.primaryColor),
                                     suffixIconConstraints: const BoxConstraints(maxWidth: 50.0, minWidth: 30.0, minHeight: 10.0),
@@ -186,77 +187,47 @@ class _RequestViewState extends State<RequestView> {
                                 );
                               },
                             ),
+                            StreamBuilder(
+                              stream: requestBloc.idAddressStream,
+                              builder: (context, snapshot) {
+                                return TextFormField(
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                                    enabledBorder: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                                      borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
+                                    ),
+                                    errorBorder: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                                      borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
+                                    ),
+                                    errorText: /*snapshot.hasError? Texts.incorrectUser: */'',
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    focusedBorder: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                                      borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
+                                    ),
+                                    focusedErrorBorder: const OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                                      borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
+                                    ),
+                                    hintText: 'Achumani',
+                                    labelText: 'Seleccione su direccion',
+                                    labelStyle: /*snapshot.hasError? Theme.of(context).textTheme.bodyMedium!.merge(const TextStyle(color: PalleteColor.redColor)): */Theme.of(context).textTheme.bodyMedium,
+                                    prefixIcon: const Icon(Icons.account_circle_rounded, color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor),
+                                    suffixIconConstraints: const BoxConstraints(maxWidth: 50.0, minWidth: 30.0, minHeight: 10.0),
+                                  ),
+                                  keyboardType: TextInputType.text,
+                                  maxLines: 1,
+                                  // onChanged: widget.authBloc.changeEmail,
+                                  // onSaved: (value) => _userModel.email = value,
+                                  style: Theme.of(context).textTheme.headlineMedium,
+                                  // validator: (value) => value!.isEmpty? Texts.emptyEmail: null,
+                                );
+                              },
+                            ),
                             
-                            TextFormField(
-                              decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                                enabledBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                  borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
-                                ),
-                                errorBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                  borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
-                                ),
-                                errorText: /*snapshot.hasError? Texts.incorrectUser: */'',
-                                fillColor: Colors.white,
-                                filled: true,
-                                focusedBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                  borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
-                                ),
-                                focusedErrorBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                  borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
-                                ),
-                                hintText: '02:00',
-                                labelText: 'Hora del servicio',
-                                labelStyle: /*snapshot.hasError? Theme.of(context).textTheme.bodyMedium!.merge(const TextStyle(color: PalleteColor.redColor)): */Theme.of(context).textTheme.bodyMedium,
-                                prefixIcon: const Icon(Icons.account_circle_rounded, color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor),
-                                suffixIconConstraints: const BoxConstraints(maxWidth: 50.0, minWidth: 30.0, minHeight: 10.0),
-                              ),
-                              keyboardType: TextInputType.text,
-                              maxLines: 1,
-                              // onChanged: widget.authBloc.changeEmail,
-                              // onSaved: (value) => _userModel.email = value,
-                              style: Theme.of(context).textTheme.headlineMedium,
-                              // validator: (value) => value!.isEmpty? Texts.emptyEmail: null,
-                            ),
-                            TextFormField(
-                              decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                                enabledBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                  borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
-                                ),
-                                errorBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                  borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
-                                ),
-                                errorText: /*snapshot.hasError? Texts.incorrectUser: */'',
-                                fillColor: Colors.white,
-                                filled: true,
-                                focusedBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                  borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
-                                ),
-                                focusedErrorBorder: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                                  borderSide: BorderSide(color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor, width: 1.2),
-                                ),
-                                hintText: 'Achumani',
-                                labelText: 'Seleccione su direccion',
-                                labelStyle: /*snapshot.hasError? Theme.of(context).textTheme.bodyMedium!.merge(const TextStyle(color: PalleteColor.redColor)): */Theme.of(context).textTheme.bodyMedium,
-                                prefixIcon: const Icon(Icons.account_circle_rounded, color: /*snapshot.hasError? PalleteColor.redColor:*/ PalleteColor.primaryColor),
-                                suffixIconConstraints: const BoxConstraints(maxWidth: 50.0, minWidth: 30.0, minHeight: 10.0),
-                              ),
-                              keyboardType: TextInputType.text,
-                              maxLines: 1,
-                              // onChanged: widget.authBloc.changeEmail,
-                              // onSaved: (value) => _userModel.email = value,
-                              style: Theme.of(context).textTheme.headlineMedium,
-                              // validator: (value) => value!.isEmpty? Texts.emptyEmail: null,
-                            ),
                             TextFormField(
                               decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
@@ -477,26 +448,24 @@ class _RequestViewState extends State<RequestView> {
       fontFamily: 'Poppins',
       context: context, 
       initialTime: TimeOfDay.now(),
-      // firstDate: DateTime(1930), 
-      // lastDate: DateTime(DateTime.now().year-12,  DateTime.now().month, DateTime.now().day),
       locale: Locale(languageCode),
-      // borderRadius: 30.0,
-      // theme: ThemeData(
-      //   fontFamily: 'Poppins',
-      //   primaryColor: Colors.white,
-      //   brightness: Brightness.light,
-      //   textTheme: const TextTheme(
-      //     labelLarge: TextStyle(color: PalleteColor.whiteColor),
-      //     bodySmall: TextStyle(fontSize: 12.0, color: PalleteColor.primaryColor),
-      //   ),
-      // )
+      borderRadius: 30.0,
+      theme: ThemeData(
+        fontFamily: 'Poppins',
+        primaryColor: Colors.white,
+        brightness: Brightness.light,
+        textTheme: const TextTheme(
+          labelLarge: TextStyle(color: PalleteColor.whiteColor),
+          bodySmall: TextStyle(fontSize: 12.0, color: PalleteColor.primaryColor),
+        ),
+      )
     );
     if(picked != null){
       setState(() {
-        final date = picked.toString();
+        final date = '${picked.hour.toString().padLeft(2, '0')}:${picked.minute.toString().padLeft(2, '0')}';
         dateController.text = date;
-    //     // _userModel.born = dateController.text;
-        beginDate = dateController.text;
+        // _userModel.born = dateController.text;
+        endDate = dateController.text;
       });
     }
   }
